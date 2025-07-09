@@ -15,7 +15,9 @@ You can cite the `CellLists.jl` repository and code by navigating to the [**DOI*
 
 
 ## Installation
-You can install `CellLists.jl` with the Julia package manager.
+CellLists.jl requires Julia 1.11 or newer, so make sure you are using the
+latest stable release of Julia. You can install the package with the Julia
+package manager.
 
 ```
 pkg> add CellLists
@@ -25,6 +27,13 @@ Alternatively, you can install `CellLists.jl` directly from the GitHub repositor
 
 ```
 pkg> add https://github.com/jaantollander/CellLists.jl
+```
+
+A minimal runnable example is provided in `examples/basic_example.jl` and can be
+executed with
+
+```
+$ julia examples/basic_example.jl
 ```
 
 
@@ -84,3 +93,17 @@ near_neighbors(c, p, r, Val(:threads))
 
 ## Benchmarks
 You can find the benchmarking code from the [**CellListsBenchmarks.jl**](https://github.com/jaantollander/CellListsBenchmarks.jl) repository and scripts for running the benchmarks and plotting in the [**cell-lists-benchmarks**](https://github.com/jaantollander/cell-lists-benchmarks) repository.
+
+## Testing
+The test suite can be run with the Julia package manager:
+
+```
+julia --project -e 'using Pkg; Pkg.test()'
+```
+
+## Building Documentation
+To build the documentation locally run
+
+```
+julia --project=docs docs/make.jl
+```

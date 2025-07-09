@@ -29,16 +29,33 @@ function CellList(p::Array{T, 2}, r::T; offset::Int=0) where T <: AbstractFloat
     CellList{d}(data)
 end
 
-"""Compute offsets to neighboring cells in `d` dimensions."""
+"""
+    neighbors(d::Int)
+
+Compute offsets to all neighboring cells in `d` dimensions. The returned vector
+excludes the zero offset so that each pair of cells is visited only once.
+"""
 @inline function neighbors(d::Int)
     n = CartesianIndices((fill(-1:1, d)...,))
     return n[1:fld(length(n), 2)]
 end
 
+"""
+    distance_condition(p1, p2, r)
+
+Return `true` if the Euclidean distance between vectors `p1` and `p2` is less
+than or equal to `r`.
+"""
 @inline function distance_condition(p1::Vector{T}, p2::Vector{T}, r::T) where T <: AbstractFloat
     sum(@. (p1 - p2)^2) ≤ r^2
 end
 
+"""
+    brute_force!(pairs, is, points, r)
+
+Check all pairs of indices in `is` and push those within distance `r` to
+`pairs`. This helper is used internally by [`near_neighbors`](@ref).
+"""
 @inline function brute_force!(ps::Vector{Tuple{Int, Int}}, is::Vector{Int}, p::Array{T, 2}, r::T) where T <: AbstractFloat
     for (k, i) in enumerate(is[1:(end-1)])
         for j in is[(k+1):end]
@@ -49,6 +66,12 @@ end
     end
 end
 
+"""
+    brute_force!(pairs, is, js, points, r)
+
+Compare each index in `is` with every index in `js` and push valid pairs to
+`pairs`.
+"""
 @inline function brute_force!(ps::Vector{Tuple{Int, Int}}, is::Vector{Int}, js::Vector{Int}, p::Array{T, 2}, r::T) where T <: AbstractFloat
     for i in is
         for j in js

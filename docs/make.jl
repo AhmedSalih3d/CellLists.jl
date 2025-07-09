@@ -4,7 +4,8 @@ using CellLists
 makedocs(
     sitename = "CellLists",
     format = Documenter.HTML(),
-    modules = [CellLists]
+    modules = [CellLists],
+    strict = false,
 )
 
 # Documenter can also automatically deploy documentation to gh-pages.
