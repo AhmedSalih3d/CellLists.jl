@@ -85,7 +85,7 @@ end
 
 const rng = MersenneTwister(894)
 const ns = [0, 1, 2, 10, 100]
-const ds = [1, 2, 3]
+const ds = [1, 2, 3, 5]
 const rs = [0.1, 0.2, 0.3, 0.5, 1.0, 2.0]
 test_cell_lists_serial(rng, ns, ds, rs, 20)
 test_merge(rng, ns, ds, rs)
@@ -93,3 +93,5 @@ test_cell_list_constructor_threads(rng, ns, ds, rs)
 test_near_neighbors_threads(rng, ns, ds, rs, 20)
 test_near_neighbors_threads_large(rng, 20000, 2, 0.01)
 test_near_neighbors_threads_large(rng, 30000, 3, 0.01)
+
+@test_throws AssertionError CellList(rand(rng, 5, 2), 0.0)
